@@ -1,0 +1,25 @@
+
+.menu-movil
+	position: absolute
+	width: 100vw
+	height: 100vh
+	z-index: 1000
+	transform: translateX(-100%)
+	transition: all .3s
+	background: rgba(0, 0, 0, .5)
+	.contenido
+		width: 80%
+		height: 100vh
+		background: #FFF
+		.nav-link
+			font-size: 1.5em
+			color: #333
+		.active
+			background: $green
+
+.btn-menu
+	color: #FFF
+	font-size: 1.4em !important
+.menu-movil-active
+	position: fixed
+	transform: translateX(0)
