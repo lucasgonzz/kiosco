@@ -36,7 +36,7 @@ Route::resource('articles', 'ArticleController');
 Route::get('mayoristas', 'MayoristaController@index');
 Route::post('mayoristas', 'MayoristaController@store');
 
-// Route::get('prueba', 'ArticleController@listar');
+Route::get('prueba', 'ArticleController@listar');
 
 Route::get('searches', 'SearchController@index');
 Route::post('sales', 'SaleController@store');

@@ -41,8 +41,10 @@ class ArticleController extends Controller
             }
         }
 
-        if(isset($request->mayoristas)){
-            $articles = $articles->whereIn('mayorista', $request->mayoristas);
+        if(count($request->mayoristas)>0){
+            if(!in_array("0", $request->mayoristas)){
+                $articles = $articles->whereIn('mayorista', $request->mayoristas);
+            }
         }
 
         if($request->orden == 0){
@@ -253,6 +255,13 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'cost' => 'integer',
+            'price' => 'required|integer',
+            'name' => 'string',
+            'stock' => 'integer',
+        ]);
+
         $article = new Article();
         $article->codigo_barras=$request->codigo_barras;
         $article->name= ucwords($request->name);

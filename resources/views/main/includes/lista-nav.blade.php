@@ -25,7 +25,7 @@
 				</form>
 				<div class="row m-t-10">
 					<div class="col">
-						<p>@{{ articulos.length }} articulos encontrados</p>
+						<p v-if="articulos.length != perPage">@{{ articulos.length }} articulos encontrados</p>
 					</div>
 				</div>
 			</div>
@@ -83,6 +83,11 @@
 						</div>
 					</div>
 				</form>
+				<div class="row m-t-10">
+					<div class="col">
+						<p v-if="articulos.length != perPage">@{{ articulos.length }} articulos encontrados</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

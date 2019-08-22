@@ -8,11 +8,11 @@
 	</div>
 	
 	<hr class="m-t-5 m-b-5">
-	<div class="row m-t-20">
+	<!-- <div class="row m-t-20">
 		<div class="col">
 			<p>@{{ pagination.total }} articulos registrados</p>
 		</div>
-	</div>
+	</div> -->
 	<div class="row m-t-5">
 		<div class="col-6 col-lg-2 m-t-5">
 			<button type="button" class="btn btn-primary d-none d-lg-block" v-on:click="getSearches()">
@@ -39,7 +39,7 @@
 		@if($agent->isMobile())
 			@include('main.includes.articleComponent')
 		@else
-			<table class="table table-striped table-hover table-sm m-t-20">
+			<table id="table-articles" class="table table-striped table-hover table-sm m-t-20">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">ID</th>
@@ -262,6 +262,9 @@ new Vue({
 			.then( response => {
 				this.articulos = response.data;
 				this.current_page = 0;
+				let table = $("#table-articles").offset();
+				let top = table.top;
+				window.scrollTo(0, 500);
 			}).catch( error => {
 				console.log(error.response);
 			})
