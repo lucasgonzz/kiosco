@@ -16,13 +16,13 @@
             <p>
               @{{ ventaAnterior.dia }}
               <strong><i class="fas fa-table"></i> @{{ ventaAnterior.creado }}</strong>
-              <i class="far fa-clock m-l-10"></i> @{{ ventaAnterior.hora }}
+              <i class="far fa-clock m-l-10"></i> @{{ ventaAnterior.hora }} hs
             </p>
-            <p v-if="ventaAnterior.diff==0">
+            <p v-if="ventaAnterior.created_diff == 0">
               Hoy
             </p>
             <p v-else>
-              Hace @{{ ventaAnterior.diff }} dias
+              Hace @{{ ventaAnterior.created_diff }}
             </p>
           </li>
         </ul>

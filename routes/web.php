@@ -20,8 +20,8 @@ Route::get('/', function () {
 Route::get('venta', 'MainController@venta')->name('venta');
 Route::get('ingresar', 'MainController@ingresar')->name('ingresar');
 Route::get('lista-precios', 'MainController@lista_precios')->name('lista-precios');
-Route::get('resumen-ventas/hoy', 'MainController@resumenVentasHoy')->name('resumen-ventas-hoy');
-Route::get('resumen-ventas/desde-una-fecha', 'MainController@resumenVentasDesdeUnaFecha')->name('resumen-ventas-desde-una-fecha');
+Route::get('resumen-ventas-hoy', 'MainController@resumenVentasHoy')->name('resumen-ventas-hoy');
+Route::get('resumen-ventas-desde-una-fecha', 'MainController@resumenVentasDesdeUnaFecha')->name('resumen-ventas-desde-una-fecha');
 // Route::get('resumen-ventas/hoy', 'MainController@resumenVentasHoy')->name('resumen-ventas-hoy');
 // Route::get('resumen-ventas', 'MainController@resumen_ventas')->name('resumen-ventas');
 Route::get('estado', 'MainController@estado')->name('estado');
@@ -42,8 +42,8 @@ Route::post('mayoristas', 'MayoristaController@store');
 Route::get('prueba', 'ArticleController@listar');
 
 Route::get('searches', 'SearchController@index');
-Route::post('sales', 'SaleController@store');
 Route::get('sales/today', 'SaleController@salesToday');
+Route::post('sales', 'SaleController@store');
 Route::delete('sales/{id}', 'SaleController@destroy');
 Route::post('sales/salesFromDate', 'SaleController@salesFromDate');
 

@@ -21,7 +21,7 @@ class Article extends Model
     ];
 
     public function sales(){
-        return $this->hasMany('App\Sale');
+        return $this->hasMany('App\Sale')->latest();;
     }
     public function searches(){
         return $this->hasMany('App\Search');

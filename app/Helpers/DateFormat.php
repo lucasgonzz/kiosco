@@ -25,14 +25,41 @@ class DateFormat{
 						}
 					}
 				}else{
-					$value{$extras[0]} = date_format($value->{$extras[1]}, $extras[0]);
+					$value{$extras[0]} = date_format($value->{$extras[1]}, $extras[2]);
 				}
 			}
 			if($diff){
+
 				$now = new DateTime("now");
 				$date1 = new DateTime($value->created_at);
 				$diff = $now->diff($date1);
-				$value->diff = $diff->days;
+				$str = '';
+			    if ($diff->y > 0) {
+			        // years
+			        $str .= ($diff->y > 1) ? $diff->y . ' años ' : $diff->y . ' año ';
+			    } if ($diff->m > 0) {
+			        // month
+			        $str .= ($diff->m > 1) ? $diff->m . ' meses ' : $diff->m . ' meses ';
+			    } if ($diff->d > 0) {
+			        // days
+			        $str .= ($diff->d > 1) ? $diff->d . ' dias ' : $diff->d . ' dia ';
+			    }
+				$value->created_diff = $str;
+
+				$date2 = new DateTime($value->updated_at);
+				$diff = $now->diff($date2);
+				$str = '';
+			    if ($diff->y > 0) {
+			        // years
+			        $str .= ($diff->y > 1) ? $diff->y . ' años ' : $diff->y . ' año ';
+			    } if ($diff->m > 0) {
+			        // month
+			        $str .= ($diff->m > 1) ? $diff->m . ' meses ' : $diff->m . ' meses ';
+			    } if ($diff->d > 0) {
+			        // days
+			        $str .= ($diff->d > 1) ? $diff->d . ' dias ' : $diff->d . ' dia ';
+			    }
+				$value->updated_diff = $str;
 			}
 		}
 

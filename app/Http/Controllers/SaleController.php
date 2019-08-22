@@ -25,11 +25,12 @@ class SaleController extends Controller
 
     public function salesToday(){
         $fecha = date('Y-m-d');
-        $sales = Sale::all();
+        // $sales = Sale::where('id', 1580)->with('article')->get();
+        $sales = Sale::whereDate('created_at', $fecha)->orderBy('id', 'DESC')->with('article')->get();
         foreach ($sales as $sale) {
-            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'H:m'], ['dia', 'created_at', 'l']]);
+            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
         }
-        $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'H:m']);
+        $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'G:i']);
         return $sales;
     }
 
