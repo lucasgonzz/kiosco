@@ -14,7 +14,7 @@
 				<a class="nav-link {{ active('lista-precios') }}" href="{{ route('lista-precios') }}"><i class="fas fa-list-ol m-r-5"></i>Lista de precios</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link {{ active('resumen-ventas') }}" href="{{ route('resumen-ventas') }}"><i class="fas fa-key m-r-5 fa-xs"></i>Resumen de ventas</a>
+				<a class="nav-link {{ active('resumen-ventas/hoy') }}" href="{{ route('resumen-ventas-hoy') }}"><i class="fas fa-key m-r-5 fa-xs"></i>Resumen de ventas</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link {{ active('codigos-de-barras') }}" href="{{ route('codigos-de-barras') }}"><i class="fas fa-barcode m-r-5"></i>Codigos de barra</a>
@@ -42,7 +42,7 @@
 		    <a class="nav-link {{ active('lista-precios') }}" href="{{ route('lista-precios') }}"><i class="fas fa-list-ol m-r-5"></i>Lista de precios</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link {{ active('resumen-ventas') }}" href="{{ route('resumen-ventas') }}"><i class="fas fa-key m-r-5 fa-xs"></i>Resumen de ventas</a>
+		    <a class="nav-link {{ active('resumen-ventas') }}" href="{{ route('resumen-ventas-hoy') }}"><i class="fas fa-key m-r-5 fa-xs"></i>Resumen de ventas</a>
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link {{ active('codigos-de-barras') }}" href="{{ route('codigos-de-barras') }}"><i class="fas fa-barcode m-r-5"></i>Codigos de barra</a>

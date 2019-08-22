@@ -20,7 +20,10 @@ Route::get('/', function () {
 Route::get('venta', 'MainController@venta')->name('venta');
 Route::get('ingresar', 'MainController@ingresar')->name('ingresar');
 Route::get('lista-precios', 'MainController@lista_precios')->name('lista-precios');
-Route::get('resumen-ventas', 'MainController@resumen_ventas')->name('resumen-ventas');
+Route::get('resumen-ventas/hoy', 'MainController@resumenVentasHoy')->name('resumen-ventas-hoy');
+Route::get('resumen-ventas/desde-una-fecha', 'MainController@resumenVentasDesdeUnaFecha')->name('resumen-ventas-desde-una-fecha');
+// Route::get('resumen-ventas/hoy', 'MainController@resumenVentasHoy')->name('resumen-ventas-hoy');
+// Route::get('resumen-ventas', 'MainController@resumen_ventas')->name('resumen-ventas');
 Route::get('estado', 'MainController@estado')->name('estado');
 Route::get('codigos-de-barras', 'MainController@codigosDeBarras')->name('codigos-de-barras');
 Route::get('cargar-codigos-barras', 'ArticleController@cargarCodigosBarras');

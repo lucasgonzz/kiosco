@@ -74,16 +74,6 @@
 		articulo: {'id': '', 'act_fecha': true, 'name': '', 'cost': '', 'price': '', 'stock': '', 'mayorista': '', 'codigo_barras': '', 'creado': '', 'actualizado': ''},
 		validationErrors: '',
 	},
-	computed: {
-		// errors: function(){
-			
-		// }
-		// validationErrors(){
-		// 	let errors = Object.values(this.errors);
-		// 	errors = errors.flat();
-		// 	return errors;
-		// }
-    }
 	methods: {
 		addMayorista: function(){
 			$("#nuevo-mayorista").modal("show");
@@ -165,9 +155,9 @@
 					toastr.error('Error al guardar articulo');
 				}
 			}).catch( error => {
-				if (error.response.status == 422){
-			       this.validationErrors = error.response.data.errors;
-			    }
+				// if (error.response.status == 422){
+			 //       this.validationErrors = error.response.data.errors;
+			 //    }
 				console.log(error.response.data);
 			});
 		},

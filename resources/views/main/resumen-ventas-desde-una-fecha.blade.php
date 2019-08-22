@@ -6,42 +6,10 @@
 				@include('main.includes.resumen-ventas-nav')
 			</div>
 		</div>
-		<!-- <div class="row m-t-20">
-			<div class="col-12 col-md-6">
-				<h2><strong>Mostrar las ventas de</strong></h2>
-			</div>
-		</div>
-		<div class="row m-t-10">
-			<div class="col-12 col-md-2">
-	        	<b-radio type="radio" v-model="mostrar" id="ventas-hoy" native-value="ventas-hoy">Hoy</b-radio>
-        	</div>
-			<div class="col-12 col-md-6">
-	        	<b-radio type="radio" v-model="mostrar" id="ventas-fecha" native-value="ventas-fecha">Desde una fecha en especifico</b-radio>
-        	</div>
-		</div>
-		<div v-show="mostrar=='ventas-fecha'">
-			<div class="row m-t-5">
-				<div class="col-6 col-md-3 align-self-start">
-					<label for="cost">Desde</label>
-					<input type="date" v-model="desde" name="" id="" class="form-control">
-				</div>
-				<div class="col-6 col-md-3 align-self-start">
-					<label for="price">Hasta</label>
-					<input type="date" v-model="hasta" name="" id="" class="form-control">
-				</div>
-				<div class="col-12 col-md-2 align-self-center">
-					<a href="#" class="btn btn-primary d-none d-md-inline" v-on:click.prevent="salesFrom()"><i class="fas fa-search m-r-5"></i>Buscar</a>
-					<a href="#" class="btn btn-primary d-block d-md-none btn-block m-t-10" v-on:click.prevent="salesFrom()"><i class="fas fa-search m-r-5"></i>Buscar</a>
-				</div>
-			</div>
-		</div> -->
 		<div class="row justify-content-between">
 			<div class="col-3 col-lg-3 align-self-center">
 				<p><strong>@{{ sales.length }} ventas</strong></p>
 			</div>
-			<!-- <div class="col-3 col-lg-3 align-self-center">
-				<a href="#" class="btn btn-primary">Dias mas vendidos</a>
-			</div> -->
 			<div class="col-9 col-lg-3">
 				<table class="table table-striped table-hover table-sm m-t-20">
 					<thead class="thead">

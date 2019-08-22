@@ -13900,13 +13900,6 @@ a.text-dark:focus {
   right: 30px;
 }
 
-.active {
-  border-bottom: 5px solid #FFF;
-  color: #FFF !important;
-  font-weight: bold;
-  font-size: 1.7em !important;
-}
-
 .old {
   background: #f8b370 !important;
 }

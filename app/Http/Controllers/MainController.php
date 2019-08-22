@@ -24,8 +24,11 @@ class MainController extends Controller
         $agent = new Agent();
     	return view('main.lista_precios', compact('agent'));
     }
-    public function resumen_ventas(){
-    	return view('main.resumen_ventas');
+    public function resumenVentasHoy(){
+        return view('main.resumen-ventas-hoy');
+    }
+    public function resumenVentasDesdeUnaFecha(){
+        return view('main.resumen-ventas-desde-una-fecha');
     }
     public function estado(){
     	return view('main.estado');
