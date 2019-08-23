@@ -10,55 +10,57 @@
 			<div class="col">
 				<ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
 					<li class="nav-item m-l-0">
-						<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Todas</a>
+						<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" @click="getSales">Todas</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">De mañana</a>
+						<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-profile" aria-selected="false" @click="getSalesMorning">De mañana</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">De tarde</a>
+						<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-contact" aria-selected="false" @click="getSalesAfternoon">De tarde</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 		<div class="tab-content" id="pills-tabContent">
 			<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-				<div class="row">
-					<div class="col">
-						<table class="table table-striped table-hover table-sm m-t-20">
-							<thead class="thead-dark">
-								<div class="thead">
-									<tr>
-										<th>Fecha</th>
-										<th>Hora</th>
-										<th>Codigo de barras</th>
-										<th>Articulo</th>
-										<th>Costo</th>
-										<th>Precio</th>
-										<th>En Stock</th>
-										<th colspan="2">Opciones</th>
-									</tr>
-								</div>
-							</thead>
-							<tbody>
-								<tr v-for="sale in sales">
-									<td>@{{ sale.creado }}</td>
-									<td>@{{ sale.hora }}</td>
-									<td>@{{ sale.article.codigo_barras }}</td>
-									<td>@{{ sale.article.name }}</td>
-									<td>$@{{ sale.article.cost }}</td>
-									<td>$@{{ sale.article.price }}</td>
-									<td>@{{ sale.article.stock }}</td>
-									<td><a href="#" class="btn btn-danger" v-on:click.prevent="deleteSale(sale)"><i class="fas fa-trash m-r-5"></i></a></td>
-									<td v-show="sale.article.sales.length>1"><a href="#" class="btn btn-outline-primary" v-on:click.prevent="showVentasAnteriores(sale.article.sales, sale)"><i class="fas fa-shopping-cart m-r-5"></i>Ventas anteriores</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
+				<ul class="list-group list-group-horizontal">
+					<li class="list-group-item">@{{ sales.length }} ventas</li>
+					<li class="list-group-item">Resumen: $@{{ total }}</li>
+				</ul>
 			</div>
-			<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-			<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<table class="table table-striped table-hover table-sm m-t-20">
+					<thead class="thead-dark">
+						<div class="thead">
+							<tr>
+								<th>Fecha</th>
+								<th>Hora</th>
+								<th>Codigo de barras</th>
+								<th>Articulo</th>
+								<th>Costo</th>
+								<th>Precio</th>
+								<th>En Stock</th>
+								<th colspan="2">Opciones</th>
+							</tr>
+						</div>
+					</thead>
+					<tbody>
+						<tr v-for="sale in sales">
+							<td>@{{ sale.creado }}</td>
+							<td>@{{ sale.hora }}</td>
+							<td>@{{ sale.article.codigo_barras }}</td>
+							<td>@{{ sale.article.name }}</td>
+							<td>$@{{ sale.article.cost }}</td>
+							<td>$@{{ sale.article.price }}</td>
+							<td>@{{ sale.article.stock }}</td>
+							<td><a href="#" class="btn btn-danger" v-on:click.prevent="deleteSale(sale)"><i class="fas fa-trash"></i></a></td>
+							<td v-show="sale.article.sales.length>1"><a href="#" class="btn btn-outline-primary" v-on:click.prevent="showVentasAnteriores(sale.article.sales, sale)"><i class="fas fa-shopping-cart m-r-5"></i>Ventas anteriores</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		@include('main.modals.ventasAnteriores')
 	</div>
@@ -78,7 +80,6 @@
 		mostrar: 'ventas-hoy',
 		desde: null,
 		hasta: null,
-		costo: 0,
 		total: 0,
 		ventasAnteriores: [],
 	},
@@ -114,6 +115,38 @@
 			.then( response => {
 				console.log(response.data);
 				this.sales = response.data;
+				this.total = 0;
+				for(let i in this.sales){
+					this.total += this.sales[i].article.price;
+				}
+			})
+			.catch( error => {
+				console.log(error.response);
+			})
+		},
+		getSalesMorning: function(){
+			axios.get('sales/today/morning')
+			.then( response => {
+				console.log(response.data);
+				this.sales = response.data;
+				this.total = 0;
+				for(let i in this.sales){
+					this.total += this.sales[i].article.price;
+				}
+			})
+			.catch( error => {
+				console.log(error.response);
+			})
+		},
+		getSalesAfternoon: function(){
+			axios.get('sales/today/afternoon')
+			.then( response => {
+				console.log(response.data);
+				this.sales = response.data;
+				this.total = 0;
+				for(let i in this.sales){
+					this.total += this.sales[i].article.price;
+				}
 			})
 			.catch( error => {
 				console.log(error.response);

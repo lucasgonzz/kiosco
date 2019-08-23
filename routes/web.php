@@ -43,6 +43,8 @@ Route::get('prueba', 'ArticleController@listar');
 
 Route::get('searches', 'SearchController@index');
 Route::get('sales/today', 'SaleController@salesToday');
+Route::get('sales/today/morning', 'SaleController@salesTodayMorning');
+Route::get('sales/today/afternoon', 'SaleController@salesTodayAfternoon');
 Route::post('sales', 'SaleController@store');
 Route::delete('sales/{id}', 'SaleController@destroy');
 Route::post('sales/salesFromDate', 'SaleController@salesFromDate');
