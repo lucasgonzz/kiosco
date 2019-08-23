@@ -177,6 +177,7 @@ new Vue({
 					console.log(response.data);
 					this.articulos = response.data.articles.data;
 					this.pagination = response.data.pagination;
+					window.scrollTo(0, 500);
 				})
 				.catch( function(error) {
 					console.log(error.response);
@@ -196,6 +197,7 @@ new Vue({
 				.then( response => {
 					console.log(response.data);
 					this.articulos = response.data;
+					window.scrollTo(0, 4000);
 				})
 				.catch( function(error) {
 					console.log(error.response);

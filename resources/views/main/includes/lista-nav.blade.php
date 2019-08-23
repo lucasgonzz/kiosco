@@ -1,5 +1,5 @@
-<div class="card">
-	<div class="card-header p-0 b-b-none">
+<div class="row">
+	<div class="col">
 		<ul class="nav nav-tabs f-w" id="myTab" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link c-g active nav-lg" id="buscar-tab" data-toggle="tab" href="#buscar" role="tab" aria-controls="profile" aria-selected="false">Buscar</a>
@@ -8,8 +8,7 @@
 				<a class="nav-link c-g nav-lg" id="filtrar-tab" data-toggle="tab" href="#filtrar" role="tab" aria-controls="filtrar" aria-selected="true">Filtrar</a>
 			</li>
 		</ul>
-	</div>
-	<div class="card-body"> 
+
 		<div class="tab-content" id="myTabContent">
 			<div class="tab-pane fade show active" id="buscar" role="tabpanel" aria-labelledby="buscar-tab">
 				<form>
@@ -29,7 +28,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane fade" id="filtrar" role="tabpanel" aria-labelledby="filtrar-tab">
+			<div class="tab-pane fade m-t-20" id="filtrar" role="tabpanel" aria-labelledby="filtrar-tab">
 				<form>
 					<div class="form-row align-items-start">
 						<div class="col-12 m-b-20 m-lg-b-0 col-lg-4">
