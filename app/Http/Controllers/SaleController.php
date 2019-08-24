@@ -79,8 +79,51 @@ class SaleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function addItemByBCode($barCode) {
+        $article = Article::where('codigo_barras', $barCode)->firstOrFail();
+        return $article;
+    }
+
     public function store(Request $request)
     {
+        $ventas = $request->ventas;
+
+        $sale = new Sale();
+        $sale->save();
+        $sale->articles()->attach($ventas);
+        $sale->save();
+
+        foreach ($ventas as $article_id) {
+            $article = Article::find($article_id);
+            $article->stock --;
+            $article->timestamps = false;
+            $article->save();
+        }
+        return;
+
+        if(is_array($request->ventas)){
+
+            foreach ($ventas as $venta) {
+                $sale = new Sale();
+                if($venta->article){
+                    return $venta->article_id;
+
+                    $article = Article::findOrFail($venta->article_id);
+                    $article->timestamps = false;
+                    $article->stock = $article->stock - 1;
+                    $article->save();
+
+                    $sale->article_id = $article->id;
+                    $sale->save();
+                }else{
+
+                    $sale->price = $venta->price;
+                    $sale->save();
+                }
+            }
+        }
+
         $article = Article::where('codigo_barras', $request->codigo_barras)->firstOrFail();
         $article->timestamps = false;
         $article->stock = $article->stock - 1;

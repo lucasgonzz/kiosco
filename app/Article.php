@@ -20,9 +20,13 @@ class Article extends Model
     	'created_at',
     ];
 
-    public function sales(){
-        return $this->hasMany('App\Sale')->latest();;
+    public function sales() {
+        return $this->belongsToMany('App\Sale');
     }
+
+    // public function sales(){
+    //     return $this->hasMany('App\Sale')->latest();;
+    // }
     public function searches(){
         return $this->hasMany('App\Search');
     }

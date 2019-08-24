@@ -48,6 +48,7 @@ Route::get('sales/today/afternoon', 'SaleController@salesTodayAfternoon');
 Route::post('sales', 'SaleController@store');
 Route::delete('sales/{id}', 'SaleController@destroy');
 Route::post('sales/salesFromDate', 'SaleController@salesFromDate');
+Route::get('sales/addItemByBCode/{barCode}', 'SaleController@addItemByBCode');
 
 Route::get('generar-codigo/{codigo}', function($codigo){
 

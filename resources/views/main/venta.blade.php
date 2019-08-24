@@ -3,31 +3,38 @@
 	<div class="row justify-content-md-center m-t-75">
 		<div class="col-12 col-md-6">
 			<div id="venta">
-				<div class="row m-b-50 align-items-center">
-					<div class="col-2">
-						<button class="btn btn-primary" v-on:click="bajarVenta()"><i class="fas fa-backward fa-3x"></i></button>
-						<span v-show="error_bajar" class="text-danger">@{{ error_bajar }}</span>
+				<div class="row m-b-15 align-items-center" v-show=" contado != 0 ">
+					<div class="col">
+						<table class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Nombre</th>
+									<th scope="col">Precio</th>
+									<th scope="col">Quedan</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="venta in ventas">
+									<td>@{{ venta.name }}</td>
+									<td>$@{{ venta.price }}</td>
+									<td>@{{ venta.stock }}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-					<div class="col-2">
-						<button class="btn btn-primary" v-on:click="subirVenta()"><i class="fas fa-forward fa-3x"></i></button>
-						<span v-show="error_subir" class="text-danger">@{{ error_subir }}</span>
-					</div>
-					<div class="col-2">
-						<button class="btn btn-danger" v-on:click="eliminarVenta()"><i class="fas fa-eraser fa-3x"></i></button>
-					</div>
-					<div class="col-6">
-						<ul class="list-group">
-							<li class="list-group-item">Nombre: <strong>@{{ venta_actual.name }}</strong></li>
-							<li class="list-group-item">Precio: <strong>$@{{ venta_actual.price }}</strong></li>
-							<li class="list-group-item">Restantes: <strong>@{{ venta_actual.stock }}</strong></li>
+				</div>
+				<div class="row m-b-15" v-show=" contado != 0 ">
+					<div class="col">
+						<ul class="list-group list-group-horizontal">
+							<li class="list-group-item">Contado: $@{{ contado }}</li>
+							<li class="list-group-item">Tarjeta: $@{{ contado + (contado/100*18) }}</li>
 						</ul>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
-							<!-- <input type="text" v-model="codigo_barras" id="codigo_barras" v-on:keyup.enter="nuevaVenta()" placeholder="Codigo de barras" class="form-control focus-red"> -->
 						<div class="form-row align-items-center">
-							<div class="col-auto">
+							<div class="col-10">
 								<div class="input-group mb-2">
 									<div class="input-group-prepend">
 										<div class="input-group-text"><i class="fas fa-barcode"></i></div>
@@ -35,11 +42,8 @@
 									<input type="text" class="form-control focus-red" v-model="codigo_barras" placeholder="Codigo de barras" @keyup.enter="itemVentaCBarras">
 								</div>
 							</div>
-							<div class="col-auto">
-								<input type="text" v-model="precio_suelto" class="form-control mb-2 focus-red"  placeholder="Precio suelto" @keyup.enter="itemVentaPrecioSuelto">
-							</div>
-							<div class="col-auto">
-								<button type="submit" class="btn btn-primary mb-2 focus-red">Venta</button>
+							<div class="col-2">
+								<button class="btn btn-primary mb-2 focus-red" @click="nuevaVenta">Venta</button>
 							</div>
 						</div>
 					</div>
@@ -76,6 +80,7 @@ new Vue({
 	},
 	data: {
 		ventas: [],
+		id_articles: [],
 		venta_actual: {},
 		codigo_barras: '',
 		precio_suelto: '',
@@ -85,8 +90,93 @@ new Vue({
 		error_subir: '',
 		bajar: 0,
 		subir: 0,
+		contado: 0,
 	},
 	methods: {
+		itemVentaPrecioSuelto: function() {
+			this.ventas.push({
+				'price' : this.precio_suelto,
+			});
+			this.ventas_request.push({
+				'article' : false,
+				'price' : this.precio_suelto,
+			});
+			this.precio_suelto = '';
+		},
+		itemVentaCBarras: function() {
+			if(this.codigo_barras!=''){
+				if(this.codigos_barras_disponibles.includes(this.codigo_barras)){
+					axios.get('sales/addItemByBCode/' + this.codigo_barras)
+					.then( response => {
+						let article = response.data;
+						this.ventas.push({
+							'codigo_barras' : this.codigo_barras,
+							'name' : article.name,
+							'price' : article.price,
+							'stock' : article.stock - 1,
+						});
+						this.id_articles.push(article.id);
+						this.contado += article.price;
+						this.codigo_barras = '';
+					})
+					.catch( error => {
+						console.log(error.response.data);
+					});
+				}else{
+					toastr.error('Ingrese un codigo de barras disponible');
+					this.codigo_barras = '';
+				}
+			}
+		},
+		nuevaVenta: function(){
+			axios.post('sales', {
+				ventas : this.id_articles
+			})
+			.then( response => {
+				console.log(response.data);
+				this.contado = 0;
+			})
+			.catch( error => {
+				console.log(error.response.data);
+			});
+
+			// this.error_cb = "";
+			// axios.post('sales', {
+			// 	'codigo_barras' : this.codigo_barras
+			// })
+			// .then( response => {
+			// 	this.bajar = this.ventas.length;
+			// 	var article = response.data;
+			// 	// console.log(article);
+			// 	if(article.stock==1){
+			// 		toastr.warning("Queda solo un 1 " + article.name);
+			// 	}else if(article.stock==0){
+			// 		toastr.error("Ya no queda ningun/a " + article.name);
+			// 	}else if(article.old){
+			// 		toastr.warning(article.name + " no esta actualizado");
+			// 	}
+			// 	var v=this.ventas.push({
+			// 		'sale_id'	: article.sale_id, 
+			// 		'name'	: article.name,
+			// 		'price'	: article.price,
+			// 		'stock'	: article.stock,
+			// 	});
+			// 	this.venta_actual = {
+			// 		'sale_id': article.sale_id, 
+			// 		'name': article.name, 
+			// 		'price': article.price, 
+			// 		'stock': article.stock
+			// 	},
+			// 	this.codigo_barras = '';
+			// })
+			// .catch( error => {
+			// 	if (error.response) {
+			//         console.log(error.response.data.message);
+			//     }else{
+			//     	console.log(error);
+			//     }
+			// });
+		},
 		bajarVenta: function(){
 			if(this.bajar>0){
 				this.bajar--;
@@ -103,12 +193,6 @@ new Vue({
 				toastr.error('No hay ventas anteriores!!');
 			}
 		},
-		itemVentaPrecioSuelto: function() {
-			this.ventas[] = this.precio_suelto;
-		},
-		itemVentaCBarras: function() {
-			this.ventas[] = 
-		}
 		subirVenta: function(){
 			if(this.bajar < this.ventas.length-1){
 				this.bajar++;
@@ -147,51 +231,6 @@ new Vue({
 				location.reload();
 			});
 		},
-		nuevaVenta: function(){
-			if(this.codigo_barras!=''){
-				if(this.codigos_barras_disponibles.includes(this.codigo_barras)){
-					this.error_cb = "";
-					axios.post('sales', {
-						'codigo_barras' : this.codigo_barras
-					})
-					.then( response => {
-						this.bajar = this.ventas.length;
-						var article = response.data;
-						// console.log(article);
-						if(article.stock==1){
-							toastr.warning("Queda solo un 1 " + article.name);
-						}else if(article.stock==0){
-							toastr.error("Ya no queda ningun/a " + article.name);
-						}else if(article.old){
-							toastr.warning(article.name + " no esta actualizado");
-						}
-						var v=this.ventas.push({
-							'sale_id'	: article.sale_id, 
-							'name'	: article.name,
-							'price'	: article.price,
-							'stock'	: article.stock,
-						});
-						this.venta_actual = {
-							'sale_id': article.sale_id, 
-							'name': article.name, 
-							'price': article.price, 
-							'stock': article.stock
-						},
-						this.codigo_barras = '';
-					})
-					.catch( error => {
-						if (error.response) {
-					        console.log(error.response.data.message);
-					    }else{
-					    	console.log(error);
-					    }
-					});
-				}else{
-					toastr.error('Ingrese un codigo de barras disponible');
-					this.codigo_barras = '';
-				}
-			}
-		}
 	}
 });
 </script>

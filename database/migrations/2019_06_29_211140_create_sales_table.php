@@ -16,11 +16,7 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->integer('article_id');
-
-            $table->foreign('article_id')
-                  ->references('id')->on('articles')
-                  ->onDelete('cascade');
+            $table->integer('price')->nullable();
 
             $table->timestamps();
         });
