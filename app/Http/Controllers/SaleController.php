@@ -26,9 +26,12 @@ class SaleController extends Controller
     public function salesToday(){
         $fecha = date('Y-m-d');
         // $sales = Sale::where('id', 1580)->with('article')->get();
-        $sales = Sale::whereDate('created_at', $fecha)->orderBy('id', 'DESC')->with('article')->get();
+        $sales = Sale::whereDate('created_at', $fecha)->orderBy('id', 'DESC')->with('articles')->get();
         foreach ($sales as $sale) {
-            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            $sale->articles = DateFormat::format($sale->articles, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            foreach ($sale->articles as $article) {
+                $article->sales = DateFormat::format($article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            }
         }
         $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'G:i']);
         return $sales;
@@ -101,52 +104,6 @@ class SaleController extends Controller
             $article->save();
         }
         return;
-
-        if(is_array($request->ventas)){
-
-            foreach ($ventas as $venta) {
-                $sale = new Sale();
-                if($venta->article){
-                    return $venta->article_id;
-
-                    $article = Article::findOrFail($venta->article_id);
-                    $article->timestamps = false;
-                    $article->stock = $article->stock - 1;
-                    $article->save();
-
-                    $sale->article_id = $article->id;
-                    $sale->save();
-                }else{
-
-                    $sale->price = $venta->price;
-                    $sale->save();
-                }
-            }
-        }
-
-        $article = Article::where('codigo_barras', $request->codigo_barras)->firstOrFail();
-        $article->timestamps = false;
-        $article->stock = $article->stock - 1;
-        $article->save();
-        $result=[];
-        $result['name'] = $article->name;
-        $result['price'] = $article->price;
-        $result['stock'] = $article->stock;
-        $result['update_at'] = $article->update_at;
-
-        $fechaMinima = Carbon::now()->subMonths(6);
-        if($article->updated_at < $fechaMinima){
-            $result['old'] = true;
-        }
-
-        $sale = new Sale();
-        $sale->article_id = $article->id;
-        if($sale->save()){
-            $result['sale_id'] = $sale->id;
-            return $result;
-        }else{
-            return "Error";
-        }
     }
 
     /**

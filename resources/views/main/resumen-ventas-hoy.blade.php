@@ -31,35 +31,34 @@
 		</div>
 		<div class="row">
 			<div class="col">
-				<table class="table table-striped table-hover table-sm m-t-20">
-					<thead class="thead-dark">
-						<div class="thead">
-							<tr>
-								<th>Fecha</th>
-								<th>Hora</th>
-								<th>Codigo de barras</th>
-								<th>Articulo</th>
-								<th>Costo</th>
-								<th>Precio</th>
-								<th>En Stock</th>
-								<th colspan="2">Opciones</th>
-							</tr>
+				<div class="accordion" id="acordeon">
+					<div class="card" v-for="(sale, index) in sales">
+						<div class="card-header" v-bind:id="'heading' + index">
+							<h2 class="mb-0">
+								<button class="btn btn-link" type="button" data-toggle="collapse" v-bind:data-target="'#collapse' + index" v-bind:aria-expanded="index == 0 ? 'true' : 'false'" v-bind:aria-controls="'collapse' + index">
+									<div class="media">
+										<i class="far fa-clock fa-3x"></i>
+										<div class="media-body m-l-5">
+											<h3 class="mt-0 h5">@{{ sale.hora }}</h3>
+											<p class="h6">$@{{ sale.total }}</p>
+										</div>
+									</div>
+									
+								</button>
+							</h2>
 						</div>
-					</thead>
-					<tbody>
-						<tr v-for="sale in sales">
-							<td>@{{ sale.creado }}</td>
-							<td>@{{ sale.hora }}</td>
-							<td>@{{ sale.article.codigo_barras }}</td>
-							<td>@{{ sale.article.name }}</td>
-							<td>$@{{ sale.article.cost }}</td>
-							<td>$@{{ sale.article.price }}</td>
-							<td>@{{ sale.article.stock }}</td>
-							<td><a href="#" class="btn btn-danger" v-on:click.prevent="deleteSale(sale)"><i class="fas fa-trash"></i></a></td>
-							<td v-show="sale.article.sales.length>1"><a href="#" class="btn btn-outline-primary" v-on:click.prevent="showVentasAnteriores(sale.article.sales, sale)"><i class="fas fa-shopping-cart m-r-5"></i>Ventas anteriores</a></td>
-						</tr>
-					</tbody>
-				</table>
+
+						<div v-bind:id="'collapse' + index" v-bind:class="index == 0 ? 'collapse show' : 'collapse'" :aria-labelledby="'heading' + index" data-parent="#acordeon">
+							<div class="card-body">
+								@{{ index }}
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+
 			</div>
 		</div>
 		@include('main.modals.ventasAnteriores')
@@ -112,13 +111,20 @@
 		},
 		getSales: function(){
 			axios.get('sales/today')
-			.then( response => {
+			.then( response => { 
 				console.log(response.data);
 				this.sales = response.data;
 				this.total = 0;
+				// for(let i in this.sales){
+				// 	this.total += this.sales[i].article.price;
+				// }
 				for(let i in this.sales){
-					this.total += this.sales[i].article.price;
+					this.sales[i].total = 0;
+					for(let j in this.sales[i].articles){
+						this.sales[i].total += this.sales[i].articles[j].price;
+					}
 				}
+				console.log('paso');
 			})
 			.catch( error => {
 				console.log(error.response);

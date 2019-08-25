@@ -3,7 +3,7 @@
 	<div class="row justify-content-md-center m-t-75">
 		<div class="col-12 col-md-6">
 			<div id="venta">
-				<div class="row m-b-15 align-items-center" v-show=" contado != 0 ">
+				<div class="row m-b-15 align-items-center" v-show=" total != 0 ">
 					<div class="col">
 						<table class="table">
 							<thead class="thead-dark">
@@ -23,11 +23,11 @@
 						</table>
 					</div>
 				</div>
-				<div class="row m-b-15" v-show=" contado != 0 ">
+				<div class="row m-b-15" v-show=" total != 0 ">
 					<div class="col">
 						<ul class="list-group list-group-horizontal">
-							<li class="list-group-item">Contado: $@{{ contado }}</li>
-							<li class="list-group-item">Tarjeta: $@{{ contado + (contado/100*18) }}</li>
+							<li class="list-group-item">total: $@{{ total }}</li>
+							<li class="list-group-item">Tarjeta: $@{{ total + (total/100*18) }}</li>
 						</ul>
 					</div>
 				</div>
@@ -83,26 +83,10 @@ new Vue({
 		id_articles: [],
 		venta_actual: {},
 		codigo_barras: '',
-		precio_suelto: '',
 		codigos_barras_disponibles: [],
-		error_cb: '',
-		error_bajar: '',
-		error_subir: '',
-		bajar: 0,
-		subir: 0,
-		contado: 0,
+		total: 0,
 	},
 	methods: {
-		itemVentaPrecioSuelto: function() {
-			this.ventas.push({
-				'price' : this.precio_suelto,
-			});
-			this.ventas_request.push({
-				'article' : false,
-				'price' : this.precio_suelto,
-			});
-			this.precio_suelto = '';
-		},
 		itemVentaCBarras: function() {
 			if(this.codigo_barras!=''){
 				if(this.codigos_barras_disponibles.includes(this.codigo_barras)){
@@ -116,7 +100,7 @@ new Vue({
 							'stock' : article.stock - 1,
 						});
 						this.id_articles.push(article.id);
-						this.contado += article.price;
+						this.total += article.price;
 						this.codigo_barras = '';
 					})
 					.catch( error => {
@@ -133,8 +117,9 @@ new Vue({
 				ventas : this.id_articles
 			})
 			.then( response => {
-				console.log(response.data);
-				this.contado = 0;
+				this.ventas = [];
+				this.id_articles = [];
+				this.total = 0;
 			})
 			.catch( error => {
 				console.log(error.response.data);
