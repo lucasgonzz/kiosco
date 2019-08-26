@@ -25,7 +25,6 @@ class SaleController extends Controller
 
     public function salesToday(){
         $fecha = date('Y-m-d');
-        // $sales = Sale::where('id', 1580)->with('article')->get();
         $sales = Sale::whereDate('created_at', $fecha)->orderBy('id', 'DESC')->with('articles')->get();
         foreach ($sales as $sale) {
             $sale->articles = DateFormat::format($sale->articles, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
@@ -39,9 +38,12 @@ class SaleController extends Controller
 
     public function salesTodayMorning(){
         $fecha = date('Y-m-d');
-        $sales = Sale::whereBetween('created_at', [$fecha . ' 08:00:00', $fecha . ' 15:00:00'])->orderBy('id', 'DESC')->with('article')->get();
+        $sales = Sale::whereBetween('created_at', [$fecha . ' 08:00:00', $fecha . ' 15:00:00'])->orderBy('id', 'DESC')->with('articles')->get();
         foreach ($sales as $sale) {
-            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            $sale->articles = DateFormat::format($sale->articles, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            foreach ($sale->articles as $article) {
+                $article->sales = DateFormat::format($article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            }
         }
         $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'G:i']);
         return $sales;
@@ -49,20 +51,26 @@ class SaleController extends Controller
 
     public function salesTodayAfternoon(){
         $fecha = date('Y-m-d');
-        $sales = Sale::whereBetween('created_at', [$fecha . ' 15:00:00', $fecha . ' 23:59:00'])->orderBy('id', 'DESC')->with('article')->get();
+        $sales = Sale::whereBetween('created_at', [$fecha . ' 15:00:00', $fecha . ' 23:59:00'])->orderBy('id', 'DESC')->with('articles')->get();
         foreach ($sales as $sale) {
-            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            $sale->articles = DateFormat::format($sale->articles, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            foreach ($sale->articles as $article) {
+                $article->sales = DateFormat::format($article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            }
         }
         $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'G:i']);
         return $sales;
     }
 
     public function salesFromDate(Request $request){
-        $sales = Sale::whereBetween('created_at', [$request->desde, $request->hasta])->orderBy('id', 'DESC')->with('article')->get();
-        $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'H:m']);
+        $sales = Sale::whereBetween('created_at', [$request->desde, $request->hasta])->orderBy('id', 'DESC')->with('articles')->get();
         foreach ($sales as $sale) {
-            $sale->article->sales = DateFormat::format($sale->article->sales, 'd/m/Y', [['hora', 'created_at', 'H:m'], ['dia', 'created_at', 'l']]);
+            $sale->articles = DateFormat::format($sale->articles, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            foreach ($sale->articles as $article) {
+                $article->sales = DateFormat::format($article->sales, 'd/m/Y', [['hora', 'created_at', 'G'], ['dia', 'created_at', 'l']]);
+            }
         }
+        $sales = DateFormat::format($sales, 'd/m/Y', ['hora', 'created_at', 'G:i']);
         return $sales;   
     }
 

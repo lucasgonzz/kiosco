@@ -21,7 +21,7 @@ class Article extends Model
     ];
 
     public function sales() {
-        return $this->belongsToMany('App\Sale');
+        return $this->belongsToMany('App\Sale')->latest();
     }
 
     // public function sales(){
