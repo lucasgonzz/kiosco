@@ -11,6 +11,7 @@
         
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
 		<!-- <link rel="stylesheet" href="{{ asset('css/toastr.css') }}"> -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -25,7 +26,8 @@
     	</div>
 
 
-        <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+        <!-- <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script> -->
+        <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
         <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
         <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         @yield('scripts')

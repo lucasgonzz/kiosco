@@ -30,6 +30,9 @@ class MainController extends Controller
     public function resumenVentasDesdeUnaFecha(){
         return view('main.resumen-ventas-desde-una-fecha');
     }
+    public function resumenVentasDiasMasVendidos(){
+        return view('main.resumen-ventas-dias-mas-vendidos');
+    }
     public function estado(){
     	return view('main.estado');
     }

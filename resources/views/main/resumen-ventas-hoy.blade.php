@@ -22,8 +22,8 @@
 			</div>
 		</div>
 		@include('main.includes.resumen-ventas-info')
-		
-		@include('main.includes.resumen-ventas-show-sales')
+		<hr style="background-color: #A8A8A8">
+		@include('main.includes.resumen-ventas-show-sales')		
 		@include('main.modals.ventasAnteriores')
 	</div>
 @endsection
@@ -40,8 +40,6 @@
 		sale: {},
 		article: {},
 		mostrar: 'ventas-hoy',
-		desde: null,
-		hasta: null,
 		total: 0,
 		ventasAnteriores: [],
 		mostrar: 0,
