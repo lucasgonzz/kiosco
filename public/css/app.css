@@ -13824,6 +13824,10 @@ a.text-dark:focus {
   border: 1px solid #f8b370;
 }
 
+.delete-sale {
+  position: absolute;
+}
+
 body {
   padding-right: 0 !important;
 }

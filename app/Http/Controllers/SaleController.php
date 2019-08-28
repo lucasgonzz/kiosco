@@ -91,8 +91,11 @@ class SaleController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function addItemByBCode($barCode) {
+    public function addItem($barCode) {
         $article = Article::where('codigo_barras', $barCode)->firstOrFail();
+        $article->stock --;
+        $article->timestamps = false;
+        $article->save();
         return $article;
     }
 
@@ -104,13 +107,6 @@ class SaleController extends Controller
         $sale->save();
         $sale->articles()->attach($ventas);
         $sale->save();
-
-        foreach ($ventas as $article_id) {
-            $article = Article::find($article_id);
-            $article->stock --;
-            $article->timestamps = false;
-            $article->save();
-        }
         return;
     }
 

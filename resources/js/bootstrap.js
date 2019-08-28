@@ -3,7 +3,25 @@
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
+import toastr from 'toastr'
 
+// toastr.options = {
+//     "closeButton": false,
+//     "debug": false,
+//     "newestOnTop": false,
+//     "progressBar": false,
+//     "positionClass": "toast-bottom-right",
+//     "preventDuplicates": false,
+//     "onclick": null,
+//     "showDuration": "300",
+//     "hideDuration": "1000",
+//     "timeOut": "5000",
+//     "extendedTimeOut": "1000",
+//     "showEasing": "swing",
+//     "hideEasing": "linear",
+//     "showMethod": "fadeIn",
+//     "hideMethod": "fadeOut"
+// }
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('popper.js')) :
   typeof define === 'function' && define.amd ? define(['popper.js'], factory) :

@@ -1,56 +1,55 @@
 @extends('app')
-@section('content')
+@section('content')<!-- 
 	<div class="row justify-content-md-center m-t-75">
-		<div class="col-12 col-md-6">
-			<div id="venta">
-				<div class="row m-b-15 align-items-center" v-show=" total != 0 ">
-					<div class="col">
-						<table class="table">
-							<thead class="thead-dark">
-								<tr>
-									<th scope="col">Nombre</th>
-									<th scope="col">Precio</th>
-									<th scope="col">Quedan</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="venta in ventas">
-									<td>@{{ venta.name }}</td>
-									<td>$@{{ venta.price }}</td>
-									<td>@{{ venta.stock }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row m-b-15" v-show=" total != 0 ">
-					<div class="col">
-						<ul class="list-group list-group-horizontal">
-							<li class="list-group-item">total: $@{{ total }}</li>
-							<li class="list-group-item">Tarjeta: $@{{ total + (total/100*18) }}</li>
-						</ul>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12">
-						<div class="form-row align-items-center">
-							<div class="col-10">
-								<div class="input-group mb-2">
-									<div class="input-group-prepend">
-										<div class="input-group-text"><i class="fas fa-barcode"></i></div>
-									</div>
-									<input type="text" class="form-control focus-red" v-model="codigo_barras" placeholder="Codigo de barras" @keyup.enter="itemVentaCBarras">
-								</div>
-							</div>
-							<div class="col-2">
-								<button class="btn btn-primary mb-2 focus-red" @click="nuevaVenta">Venta</button>
-							</div>
+		<div class="col-12 col-md-6"> -->
+<div id="venta" class="p-t-20">
+	<div class="row justify-content-center m-b-15">
+		<div class="col-12 col-lg-6">
+			<div class="form-row align-items-center">
+				<div class="col-10">
+					<div class="input-group mb-2">
+						<div class="input-group-prepend">
+							<div class="input-group-text"><i class="fas fa-barcode"></i></div>
 						</div>
+						<input type="text" class="form-control focus-red" v-model="codigo_barras" placeholder="Codigo de barras" @keyup.enter="itemVentaCBarras">
 					</div>
+				</div>
+				<div class="col-2">
+					<button class="btn btn-primary mb-2 focus-red" @click="nuevaVenta">Venta</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="row m-b-15 justify-content-center" v-show=" total != 0 ">
+		<div class="col col-lg-6">
+			<ul class="list-group list-group-horizontal">
+				<li class="list-group-item">total: $@{{ total }}</li>
+				<li class="list-group-item">Tarjeta: $@{{ total + (total/100*18) }}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row justify-content-center" v-show=" total != 0 ">
+		<div class="col col-lg-6">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Precio</th>
+						<th scope="col">Quedan</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="venta in ventas">
+						<td>@{{ venta.name }}</td>
+						<td>$@{{ venta.price }}</td>
+						<td>@{{ venta.stock }}</td>
+						<td class="delete-sale">Eliminar</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
@@ -60,23 +59,6 @@ new Vue({
 	el: "#venta",
 	created: function(){
 		this.cargarCodigosDisponibles();
-		toastr.options = {
-			"closeButton": false,
-			"debug": false,
-			"newestOnTop": false,
-			"progressBar": false,
-			"positionClass": "toast-bottom-right",
-			"preventDuplicates": false,
-			"onclick": null,
-			"showDuration": "300",
-			"hideDuration": "1000",
-			"timeOut": "5000",
-			"extendedTimeOut": "1000",
-			"showEasing": "swing",
-			"hideEasing": "linear",
-			"showMethod": "fadeIn",
-			"hideMethod": "fadeOut"
-		}
 	},
 	data: {
 		ventas: [],
@@ -90,14 +72,14 @@ new Vue({
 		itemVentaCBarras: function() {
 			if(this.codigo_barras!=''){
 				if(this.codigos_barras_disponibles.includes(this.codigo_barras)){
-					axios.get('sales/addItemByBCode/' + this.codigo_barras)
+					axios.get('sales/addItem/' + this.codigo_barras)
 					.then( response => {
 						let article = response.data;
 						this.ventas.push({
 							'codigo_barras' : this.codigo_barras,
 							'name' : article.name,
 							'price' : article.price,
-							'stock' : article.stock - 1,
+							'stock' : article.stock,
 						});
 						this.id_articles.push(article.id);
 						this.total += article.price;

@@ -1,8 +1,10 @@
 
-require('./bootstrap');
-
 window.$ = window.jQuery = require('jquery')
+require('./bootstrap');
+require('./venta');
+
 window.Vue = require('vue');
+
 
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
@@ -10,6 +12,7 @@ Vue.use(Buefy);
 
 
 import chart from 'chart.js'
+
 window.axios = require('axios');
 $("#btn-menu").click(function(){
     $('.menu-movil').toggleClass('menu-movil-active');
