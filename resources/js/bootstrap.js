@@ -3,7 +3,6 @@
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
-import toastr from 'toastr'
 
 // toastr.options = {
 //     "closeButton": false,

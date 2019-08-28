@@ -1,7 +1,6 @@
 
 window.$ = window.jQuery = require('jquery')
 require('./bootstrap');
-require('./venta');
 
 window.Vue = require('vue');
 
@@ -12,6 +11,7 @@ Vue.use(Buefy);
 
 
 import chart from 'chart.js'
+import toastr from 'toastr'
 
 window.axios = require('axios');
 $("#btn-menu").click(function(){

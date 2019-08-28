@@ -13826,6 +13826,13 @@ a.text-dark:focus {
 
 .delete-sale {
   position: absolute;
+  color: #e3342f;
+  display: none;
+  cursor: pointer;
+}
+
+.tr:hover .delete-sale {
+  display: block;
 }
 
 body {

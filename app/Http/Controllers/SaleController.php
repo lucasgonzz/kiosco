@@ -152,11 +152,9 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        $sale = Sale::findOrFail($id);
-        $article = $sale->article;
+        $article = Article::findOrFail($id);
         $article->timestamps = false;
         $article->stock = $article->stock + 1;
         $article->save();
-        $sale->delete();
     }
 }
